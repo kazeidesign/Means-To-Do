@@ -1,0 +1,22 @@
+{
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.5",
+    "angular-material": "~1.1.0",
+    "angular-sails": "^1.1.4",
+    "angular-route": "~1.5.5",
+    "angular-loader": "~1.5.5",
+    "angular-mocks": "~1.5.5",
+    "html5-boilerplate": "~5.3.0"
+  },
+  "name": "Mean-Sails-Stack",
+  "version": "0.0.1",
+  "author": "KazeiDesign - Loïk Maniquant",
+  "private": true
+}

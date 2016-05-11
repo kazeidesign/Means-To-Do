@@ -1,0 +1,61 @@
+/**
+ * importer.scss
+ *
+ * By default, new Sails projects are configured to compile this file
+ * from SASS to CSS.  Unlike CSS files, SASS files are not compiled and
+ * included automatically unless they are imported below.
+ *
+ * The SASS files imported below are compiled and included in the order
+ * they are listed.  Mixins, variables, etc. should be imported first
+ * so that they can be accessed by subsequent SASS stylesheets.
+ *
+ * (Just like the rest of the asset pipeline bundled in Sails, you can
+ * always omit, customize, or replace this behavior with SASS, SCSS,
+ * or any other Grunt tasks you like.)
+ */
+
+
+
+// For example:
+//
+// @import 'variables/colors.scss';
+// @import 'mixins/foo.scss';
+// @import 'mixins/bar.scss';
+// @import 'mixins/baz.scss';
+//
+// @import 'styleguide.scss';
+// @import 'pages/login.scss';
+// @import 'pages/signup.scss';
+//
+// etc.
+
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
