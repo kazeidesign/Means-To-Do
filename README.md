@@ -1,5 +1,7 @@
 # MEAN-Sails-To-Do
 
+<img src="https://raw.githubusercontent.com/kazeidesign/Means-To-Do/gh-pages/images/Means-To-Do-screenshot.png" alt="">
+
 To do example with MEAN stack with Sails.js = [Mean-Sails-Stack](github.com/kazeidesign/Mean-Sails-Stack).
 
 ## Ready to use
