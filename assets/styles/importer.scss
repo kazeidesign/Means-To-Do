@@ -31,31 +31,82 @@
 
 /* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+/* variable */
+
+$white: #fff;
+
+/* Reset */
+
+html, body {
+  background-color: inherit;
 }
 
-.menu:before {
-  content: "[";
+i {
+    cursor: pointer;
 }
 
-.menu:after {
-  content: "]";
+.left {
+  float: left;
 }
 
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
+md-checkbox,
+md-input-container {
   padding: 0;
+  margin: 0;
+}
+
+/* Utilities */
+
+.cl--white {
+  color: $white;
+}
+
+
+body {
+  background: url(http://img15.hostingpics.net/pics/384420photo1422393462206207b0fbd8d6b.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+md-card md-card-title {
+    padding: 8px;
+}
+
+.task_card {
+  margin-bottom: 15px;
+}
+
+.completed_task .ng-binding {
+  text-decoration: line-through;
+}
+
+.material-icons.icon_add {
+  font-size: 50px;
+  margin: 4px -7px;
+}
+
+.container_add {
+    margin-right: 30px;
+}
+
+.input_container_add {
+    margin-top: 15px;
+    margin-bottom: -15px;
+    width: 95%;
+    margin-left: 1%;
+}
+
+.input_container_add--cancel {
+  position: absolute;
+  margin-left: -20px;
+}
+
+.button_add {
+    float: right;
+    margin-top: -63px;
 }

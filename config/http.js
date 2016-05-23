@@ -11,7 +11,7 @@
 
 module.exports.http = {
   
-    customMiddleware: function (app) {
+  customMiddleware: function (app) {
 	var express = require('../node_modules/express');
 	app.use('/',express.static(__dirname+'/../views'));
   },

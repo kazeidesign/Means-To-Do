@@ -2,117 +2,220 @@
 
 To do example with MEAN stack with Sails.js = [Mean-Sails-Stack](github.com/kazeidesign/Mean-Sails-Stack).
 
-### Under Development
-
-<!--
 ## Ready to use
 
-This app is ready to use. Clone this repository ``` git clone https://github.com/kazeidesign/Mean-Sails-Stack.git ``` in your server.
+This app is ready to use. Clone this repository ``` https://github.com/kazeidesign/Means-To-Do.git ``` in your server.
 
-Run `` cd Mean-Sails-Stack/ && npm install && sails lift ``.
+Run `` cd Means-To-Do/ && npm install && sails lift ``.
 
 /!\ At the first `` sails lift ``, wait less than one minute for the automatical bower install.
 
-Look in your browser at [localhost:1337](http://localhost:1337). Your Sails.js app is ready and you can use Angular.js.
+Look in your browser at [localhost:1337](http://localhost:1337). Your Sails.js app is ready and you can play with it.
 
 ## Getting Started
 
 #### Needed
 
-[Node.js](https://nodejs.org/en/): version 4.4.4 LTS or later
+This To-do example is based on [MEAN-Sails-Stack](https://github.com/kazeidesign/Mean-Sails-Stack).
 
-[Sails.js](http://sailsjs.org): version 0.12.3 or later
-
-<a href="https://www.mongodb.com/" target="_blank">MongoDB</a>: version 2.4.0 or later
-
-<a href="https://angularjs.org/" target="_blank">Angular.js</a>: version 1.5.5 or later
-
-[Grunt-sass](https://www.npmjs.com/package/grunt-sass): version 1.2.0 or later
-
-[Angular-Sails](https://github.com/janpantel/angular-sails): version 1.1.4 or later (/!\ Doesn't work with 2.0.0 Beta version)
-
-[Angular-Material](https://github.com/angular/material): version 1.1.0 or later
-
-[Html5-boilerplate](https://github.com/h5bp/html5-boilerplate): version 5.3.0 or later
 
 ---
 
-#### CRUD between AngularJS and SailsJS
+## How-to create this To-Do
+
+#### Model
 
 ```javascript
-var app = angular.module("MyApp", ['ngSails']);
-
-//OPTIONAL! Set socket URL!
-app.config(['$sailsProvider', function ($sailsProvider) {
-    $sailsProvider.url = 'http://foo.bar';
-}]);
-
-app.controller("FooController", function ($scope, $sails) {
-  $scope.bars = [];
-
-  (function () {
-    // Using .success() and .error()
-    $sails.get("/bars")
-      .success(function (data, status, headers, jwr) {
-        $scope.bars = data;
-      })
-      .error(function (data, status, headers, jwr) {
-        alert('Houston, we got a problem!');
-      });
-
-    // Using .then()
-    $sails.get("/bars")
-      .then(function(resp){
-          $scope.bars = resp.data;
-      }, function(resp){
-        alert('Houston, we got a problem!');
-      });
-
-    // Watching for updates
-    var barsHandler = $sails.on("bars", function (message) {
-      if (message.verb === "created") {
-        $scope.bars.push(message.data);
-      }
-    });
-    
-    // Stop watching for updates
-    $scope.$on('$destroy', function() {
-      $sails.off('bars', barsHandler);
-    });
-    
-  }());
-});
+module.exports = {
+  schema: true,
+  attributes: {
+    feature: {
+      type: 'string',
+      required: true
+    },
+    status: {
+      type: 'string',
+      defaultsTo: 'To do'
+    }
+  }
+};
 ```
 
+#### API
+
+Run `` sails generate api item `` and initialize `` task `` in the `` .config `` of your module.
+
+```javascript
+
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider
+  .when('/view1', {
+    templateUrl: 'view1/view1.html',
+    controller: 'View1Ctrl as task' // Initialize item
+  });
+}])
+
+```
+
+#### List all item
+
+```javascript
+.controller('View1Ctrl', function ($rootScope, sailsResource) {
+  var self = this;
+  var item = sailsResource('Item', {
+    nocache: {method: 'GET', isArray: true, cache: false},
+    count: {method: 'GET', url: '/item/count'},
+    notFound: {method: 'GET', url: '/whoa/there'}
+  });
+  
+  this.itemResource = item;
+  this.itemTypes = item.query();
+  
+  })
+```
+
+
+#### Create a new item
+
+```javascript
+  this.itemForm = new item();
+  this.add = function () {
+    self.itemForm.$save(function (newItem) {
+      self.itemTypes.push(newItem);
+    });
+    self.itemForm = new item();
+  };
+  
+  
+// Cancel
+  this.cancel = function () {
+    self.simpleForm = new simple();
+  };
+  
+  // Return an error in the console
+  this.causeError = function () {
+    item.notFound(
+      function (response) {
+      },
+      function (response) {
+        self.error = response.statusCode;
+      });
+  };
+  
+  $rootScope.$on('$sailsResourceCreated', function () {
+    self.created++;
+  });
+```
+
+#### Delete an item
+
+```javascript
+  this.deleteitem = function (item) {
+    item.$delete();
+  };
+  
+  [...]
+  
+  $rootScope.$on('$sailsResourceDestroyed', function () {
+    self.destroyed++;
+  });
+```
+
+#### Update an item
+
+```javascript
+  this.editItem = function (item) {
+    item.$editing = true;
+  };
+  
+  this.saveItem = function (item) {
+    item.$save();
+    item.$editing = false;
+  };
+  
+  
+  [...]
+  
+  $rootScope.$on('$sailsResourceUpdated', function () {
+    self.updated++;
+  });
+  
+```
+
+#### Check/Uncheck an item
+
+```javascript
+  this.checkItemCompleted = function (item){
+    item.status = "completed";
+    item.$save();
+  };
+  
+  this.checkItemToDo = function (item){
+    item.status = "To do";
+    item.$save();
+  };
+```
+
+#### HTML
+
+```html
+  <md-card-title flex>
+    <md-card-title-text>
+      <md-input-container>
+        <md-checkbox class="checkbox" ng-model="item.status" ng-true-value="'completed'" ng-false-value="'To do'" aria-label="Checkbox 1" ng-click="task.checkItemToDo(item)"></md-checkbox>
+        {{ item.feature }}
+      </md-input-container>
+    </md-card-title-text>
+  </md-card-title>
+```
+
+#### SASS
+
+```css
+/* variable */
+
+$white: #fff;
+
+/* Reset */
+
+html, body {
+  background-color: inherit;
+}
+
+i {
+    cursor: pointer;
+}
+
+/* Utilities */
+
+.cl--white {
+  color: $white;
+}
+
+
+body {
+  background: url(https://images.unsplash.com/photo-1422393462206-207b0fbd8d6b?format=auto&auto=compress&dpr=1&crop=entropy&fit=crop&w=1920&h=1280&q=80);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+} 
+
+.container {
+  margin: 0 auto;
+}
+
+md-card md-card-title {
+    padding: 0px 16px;
+}
+
+.completed_task .ng-binding {
+  text-decoration: line-through;
+}
 ---
 
-### Example
 
- Under development
-
-API Reference
 --------------
-
-### Sails.JS REST ###
-Angular Sails wraps the native sails.js REST functions. For further information check out [the sails docs](http://sailsjs.org/#!documentation/sockets) and [Mike's Screencast](http://www.youtube.com/watch?v=GK-tFvpIR7c)
-
-### Native socket functions ###
-The sails service is nothing more like the native socket.io object!
 
 Enjoy!
 
 [KazeiDesign](https://github.com/kazeidesign)
-
----
-
-#### To do
-
-* Doc
-* To do example
-* Post example
-* Front office & Back office example
-* [grunt-scss-lint](https://github.com/ahmednuaman/grunt-scss-lint)
-* [grunt-sass-lint](https://github.com/sasstools/grunt-sass-lint)
-* [grunt-postcss](https://github.com/nDmitry/grunt-postcss)
-
--->

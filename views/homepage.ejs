@@ -14,20 +14,31 @@
     <link rel="stylesheet" href="/vendor/html5-boilerplate/dist/css/normalize.css">
     <link rel="stylesheet" href="/vendor/html5-boilerplate/src/css/main.css">
     <link rel="stylesheet" href="/styles/importer.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
+  <md-toolbar class="md-hue-2 cl--white">
+      <div class="md-toolbar-tools">
+        <h2>
+          To-do
+        </h2>
+        <span flex></span>
+        <md-button href="#/view1" aria-label="To-do / View1">
+          To-do / View1
+        </md-button>
+        <md-button href="#/view2" aria-label="View2">
+          View2
+        </md-button>
+      </div>
+    </md-toolbar>
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div ng-view></div>
+  <div ng-view flex-gt-md="60" flex-offset-gt-md="20" layout-wrap></div>
 
-  <div>Angular seed app: v<span app-version></span></div>
+  <div class="cl--white">Angular seed app: v<span app-version></span></div>
 
 
 
@@ -42,8 +53,8 @@
   <script src="/vendor/angular-route/angular-route.js"></script>
   
   <!-- Angular-Sails -->  
-  <script src="/vendor/sails.io.js/sails.io.js"></script>
-  <script src="/vendor/angular-sails/angular-sails.js"></script>
+  <script src="/js/dependencies/sails.io.js"></script>
+  <script src="/js/dependencies/sailsResource.js"></script>
   
   <!-- App.js -->
   <script src="/js/app.js"></script>
